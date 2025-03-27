@@ -1,25 +1,36 @@
-import { createRouter, createWebHistory } from "vue-router";
-import type { RouteRecordRaw } from "vue-router";
-import { isTokenExpired } from "@/utils/authGurad";
-import HomeView from "@/views/Home.vue";
-import SigninView from "@/views/Auth/Signin.vue";
+import { createRouter, createWebHistory } from 'vue-router'
+import type { RouteRecordRaw } from 'vue-router'
+import { isTokenExpired } from '@/utils/authGurad'
 
 const routes: RouteRecordRaw[] = [
-  { path: "/", name: "Home", component: HomeView },
-  { path: "/login", name: "Login", component: SigninView },
-];
+  {
+    path: '/',
+    name: 'Ecommerce',
+    component: () => import('@/views/Ecommerce.vue'),
+    meta: {
+      title: 'eCommerce Dashboard'
+    }
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: () => import('@/views/Auth/Signin.vue'),
+    meta: {
+      title: 'Login'
+    }
+  }
+]
 
 const router = createRouter({
   history: createWebHistory(),
-  routes,
-});
+  routes
+})
 
 router.beforeEach((to, from, next) => {
-  if (to.path === "/login" && !isTokenExpired()) {
-    return next("/");
+  if (to.path === '/login' && !isTokenExpired()) {
+    return next('/')
   }
-  next();
-});
+  next()
+})
 
-export default router;
-
+export default router
