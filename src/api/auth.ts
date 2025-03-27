@@ -1,5 +1,8 @@
 import { catchAsync } from "@/utils/catchAsync";
 import axiosClient from "./axiosClient";
+import { useAuthStore } from '@/stores/auth';
+
+const authStore = useAuthStore();
 
 export const authApi = {
   login: async (data: { email: string; password: string }) =>
@@ -9,6 +12,8 @@ export const authApi = {
       if (response?.access_token) {
         localStorage.setItem("auth", JSON.stringify(response));
       }
+      const user = response?.user;
+      authStore.login(user);
 
       return response;
     }),
