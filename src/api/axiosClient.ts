@@ -1,4 +1,5 @@
 import axios from "axios";
+import router from "@/router";
 
 const axiosClient = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
@@ -10,9 +11,11 @@ const axiosClient = axios.create({
 
 axiosClient.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+    const auth = localStorage.getItem("auth");
+
+    const accessToken = JSON.parse(auth)?.access_token;
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
     }
     return config;
   },
@@ -22,7 +25,10 @@ axiosClient.interceptors.request.use(
 axiosClient.interceptors.response.use(
   (response) => response.data,
   (error) => {
-    console.error("API Error:", error);
+    if (error.response && error.response.status === 401) {
+      localStorage.removeItem("token");
+      router.push("/login");
+    }
     return Promise.reject(error);
   }
 );

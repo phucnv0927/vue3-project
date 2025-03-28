@@ -12,6 +12,6 @@ export default {
   },
   unmounted(el) {
     document.removeEventListener('click', el.clickOutsideEvent)
-  },
+  }
 }
 </script>

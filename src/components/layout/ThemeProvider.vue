@@ -37,7 +37,7 @@ watch([theme, isInitialized], ([newTheme, newIsInitialized]) => {
 
 provide('theme', {
   isDarkMode,
-  toggleTheme,
+  toggleTheme
 })
 </script>
 
