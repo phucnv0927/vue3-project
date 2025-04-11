@@ -10,7 +10,7 @@ export const authApi = {
   login: async (data: { email: string; password: string }) =>
     catchAsync(async () => {
       const response: Auth = await axiosClient.post("/auth/login", data);
-
+      
       if (response?.access_token) {
         localStorage.setItem("auth", JSON.stringify(response));
       }

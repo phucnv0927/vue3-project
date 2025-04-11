@@ -259,17 +259,19 @@ import { ref } from 'vue'
 import Modal from './Modal.vue'
 import type { User } from '@/types/user'
 
-defineProps({
+const props = defineProps({
   user: {
     type: Object as () => User,
     required: true
   }
 })
+
 const isProfileInfoModal = ref(false)
 
+const emit = defineEmits(['save'])
+
 const saveProfile = () => {
-  // Implement save profile logic here
-  console.log('Profile saved')
+  emit('save', props.user)
   isProfileInfoModal.value = false
 }
 </script>

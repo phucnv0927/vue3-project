@@ -39,10 +39,17 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   document.title = (to.meta.title as string) || "Vue 3";
-  if (to.path === '/login' && !isTokenExpired()) {
-    return next('/')
+
+  if (to.path !== '/login' && isTokenExpired()) {
+    return next('/login');
   }
-  next()
-})
+
+  if (to.path === '/login' && !isTokenExpired()) {
+    return next('/');
+  }
+
+  next();
+});
+
 
 export default router

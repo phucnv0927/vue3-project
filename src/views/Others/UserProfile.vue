@@ -7,7 +7,7 @@
     >
       <h3 class="mb-5 text-lg font-semibold text-gray-800 dark:text-white/90 lg:mb-7">Profile</h3>
       <profile-card :user="user" />
-      <personal-info-card :user="user" />
+      <personal-info-card :user="user" @save="saveProfile" />
       <address-card />
     </div>
   </admin-layout>
@@ -30,4 +30,8 @@ onBeforeMount(async () => {
   const response = await authApi.getProfile()
   user.value = response
 })
+
+const saveProfile = async (data) => {
+  console.log(data)
+}
 </script>

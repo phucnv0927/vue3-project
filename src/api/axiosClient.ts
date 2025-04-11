@@ -25,10 +25,23 @@ axiosClient.interceptors.request.use(
 axiosClient.interceptors.response.use(
   (response) => response.data,
   (error) => {
-    if (error.response && error.response.status === 401) {
-      localStorage.removeItem("token");
-      router.push("/login");
+    if (error.response) {
+      const { status, data } = error.response;
+
+      // Handle status 401 - Unauthorized
+      if (status === 401) {
+        localStorage.removeItem("token");
+        router.push("/login");
+      }
+
+      // Handle status 400 - Bad Request
+      if (status === 400) {
+        return Promise.reject({
+          message: data.message,
+        });
+      }
     }
+
     return Promise.reject(error);
   }
 );
